@@ -1,1 +1,115 @@
-<p>admin works!</p>
+<div class="max-w-lg mx-auto bg-white m-3.5 p-6 rounded-xl shadow-md">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Agregar Producto</h2>
+  
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <!-- Referencia -->
+      <div>
+        <label class="block text-gray-700 font-medium">Referencia:</label>
+        <input type="text" formControlName="reference"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @if (productForm.get('reference')?.invalid && productForm.get('reference')?.touched) {
+          <div class="text-red-500 text-sm">
+            @if (productForm.get('reference')?.errors?.['required']) {
+              <p>La referencia es obligatoria.</p>
+            }
+            @if (productForm.get('reference')?.errors?.['minlength']) {
+              <p>Debe tener al menos 3 caracteres.</p>
+            }
+          </div>
+        }
+      </div>
+  
+      <!-- Nombre -->
+      <div>
+        <label class="block text-gray-700 font-medium">Nombre:</label>
+        <input type="text" formControlName="name"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @if (productForm.get('name')?.invalid && productForm.get('name')?.touched) {
+          <div class="text-red-500 text-sm">
+            @if (productForm.get('name')?.errors?.['required']) {
+              <p>El nombre es obligatorio.</p>
+            }
+            @if (productForm.get('name')?.errors?.['minlength']) {
+              <p>Debe tener al menos 3 caracteres.</p>
+            }
+          </div>
+        }
+      </div>
+  
+      <!-- Precio -->
+      <div>
+        <label class="block text-gray-700 font-medium">Precio:</label>
+        <input type="number" formControlName="price"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @if (productForm.get('price')?.invalid && productForm.get('price')?.touched) {
+          <div class="text-red-500 text-sm">
+            @if (productForm.get('price')?.errors?.['required']) {
+              <p>El precio es obligatorio.</p>
+            }
+            @if (productForm.get('price')?.errors?.['min']) {
+              <p>Debe ser mayor que 0.</p>
+            }
+          </div>
+        }
+      </div>
+  
+      <!-- Descripción -->
+      <div>
+        <label class="block text-gray-700 font-medium">Descripción:</label>
+        <textarea formControlName="description"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        @if (productForm.get('description')?.invalid && productForm.get('description')?.touched) {
+          <div class="text-red-500 text-sm">
+            @if (productForm.get('description')?.errors?.['required']) {
+              <p>La descripción es obligatoria.</p>
+            }
+            @if (productForm.get('description')?.errors?.['maxlength']) {
+              <p>Máximo 500 caracteres.</p>
+            }
+          </div>
+        }
+      </div>
+  
+      <!-- Categoría -->
+      <div>
+        <label class="block text-gray-700 font-medium">Categoría:</label>
+        <input type="text" formControlName="category"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @if (productForm.get('category')?.invalid && productForm.get('category')?.touched) {
+          <div class="text-red-500 text-sm">
+            @if (productForm.get('category')?.errors?.['required']) {
+              <p>La categoría es obligatoria.</p>
+            }
+          </div>
+        }
+      </div>
+  
+      <!-- En oferta -->
+      <div class="flex items-center">
+        <input type="checkbox" formControlName="sale"
+          class="h-5 w-5 text-blue-500 border-gray-300 rounded focus:ring-blue-400">
+        <label class="ml-2 text-gray-700 font-medium">En oferta</label>
+      </div>
+  
+      <!-- Imagen -->
+      <div>
+        <label class="block text-gray-700 font-medium">URL de Imagen:</label>
+        <input type="text" formControlName="image"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @if (productForm.get('image')?.invalid && productForm.get('image')?.touched) {
+          <div class="text-red-500 text-sm">
+            @if (productForm.get('image')?.errors?.['required']) {
+              <p>La URL de la imagen es obligatoria.</p>
+            }
+          </div>
+        }
+      </div>
+  
+      <!-- Botón -->
+      <button type="submit" [disabled]="productForm.invalid"
+        class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all">
+        Guardar Producto
+      </button>
+    </form>
+  </div>
+  
