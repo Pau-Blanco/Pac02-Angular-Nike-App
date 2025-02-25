@@ -6,10 +6,11 @@ import { HeroComponent } from './components/hero/hero.component';
 import { ProductosComponent } from './components/productos/productos.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { HomeComponent } from './components/home/home.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, HeaderComponent, HeroComponent, ProductosComponent, AdminComponent, HomeComponent],
+  imports: [RouterOutlet, NavbarComponent, HeaderComponent, HeroComponent, ProductosComponent, AdminComponent, HomeComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
