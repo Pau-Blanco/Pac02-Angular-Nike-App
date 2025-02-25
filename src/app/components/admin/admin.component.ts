@@ -30,7 +30,7 @@ export class AdminComponent {
     this.productForm = this.fb.group({
       reference: ['', [Validators.required, Validators.minLength(3)]],
       name: ['', [Validators.required, Validators.minLength(3)]],
-      price: [0, [Validators.required, Validators.min(1)]],
+      price: [1, [Validators.required, Validators.min(1)]],
       description: ['', [Validators.required, Validators.maxLength(500)]],
       category: ['', [Validators.required]],
       sale: [false],
@@ -43,7 +43,7 @@ export class AdminComponent {
     this.producto = {
       reference: this.productForm.value.reference || '',
       name: this.productForm.value.name || '',
-      price: this.productForm.value.price || 0,
+      price: this.productForm.value.price || 1,
       description: this.productForm.value.description || '',
       category: this.productForm.value.category || '',
       sale: this.productForm.value.sale || false,
