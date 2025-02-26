@@ -15,7 +15,7 @@ import type { Product } from '../../models/product.interface';
 export class AdminComponent {
   productForm: FormGroup
   isEditing = false
-  categories = ["Electronics", "Clothing", "Books", "Food", "Other"]
+  categories = ["Zapatos", "Ropa", "Accesorios", "Other"]
 
   constructor(
     private fb: FormBuilder,
@@ -48,16 +48,6 @@ export class AdminComponent {
       } else {
         this.isEditing = false
       }
-    }
-  }
-
-  async onImageUpload(event: any): Promise<void> {
-    const file = event.target.files[0]
-    if (file) {
-      // Here you would typically upload to your image server
-      // For demo purposes, we'll use a placeholder
-      const imageUrl = "/placeholder.svg"
-      this.productForm.patchValue({ imageUrl })
     }
   }
 

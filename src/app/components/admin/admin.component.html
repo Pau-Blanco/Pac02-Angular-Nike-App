@@ -1,13 +1,13 @@
-<div class="container mx-auto p-4">
-  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="max-w-lg mx-auto space-y-4">
-    <h2 class="text-2xl font-bold mb-6">{{ isEditing ? 'Editar Producto' : 'Nuevo Producto' }}</h2>
+<div class="container mx-auto py-12 px-6">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="max-w-3xl mx-auto space-y-6 bg-gray-100 p-10 rounded-lg shadow-2xl">
+    <h2 class="text-3xl font-bold mb-8 text-center">{{ isEditing ? 'Editar Producto' : 'Nuevo Producto' }}</h2>
 
     <div class="space-y-2">
-      <label class="block text-sm font-medium">Nombre del Producto</label>
+      <label class="block text-sm font-medium text-gray-700">Nombre del Producto</label>
       <input
         type="text"
         formControlName="name"
-        class="w-full p-2 border rounded-md"
+        class="w-full p-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         [ngClass]="{'border-red-500': productForm.get('name')?.invalid && productForm.get('name')?.touched}"
       >
       <span class="text-red-500 text-sm" *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
@@ -16,12 +16,12 @@
     </div>
 
     <div class="space-y-2">
-      <label class="block text-sm font-medium">Número de Serie</label>
+      <label class="block text-sm font-medium text-gray-700">Número de Serie</label>
       <input
         type="text"
         formControlName="serialNumber"
         (blur)="onSerialNumberChange()"
-        class="w-full p-2 border rounded-md"
+        class="w-full p-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         [ngClass]="{'border-red-500': productForm.get('serialNumber')?.invalid && productForm.get('serialNumber')?.touched}"
       >
       <span class="text-red-500 text-sm" *ngIf="productForm.get('serialNumber')?.invalid && productForm.get('serialNumber')?.touched">
@@ -30,11 +30,11 @@
     </div>
 
     <div class="space-y-2">
-      <label class="block text-sm font-medium">Precio</label>
+      <label class="block text-sm font-medium text-gray-700">Precio</label>
       <input
         type="number"
         formControlName="price"
-        class="w-full p-2 border rounded-md"
+        class="w-full p-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         [ngClass]="{'border-red-500': productForm.get('price')?.invalid && productForm.get('price')?.touched}"
       >
       <span class="text-red-500 text-sm" *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
@@ -43,11 +43,11 @@
     </div>
 
     <div class="space-y-2">
-      <label class="block text-sm font-medium">Descripción</label>
+      <label class="block text-sm font-medium text-gray-700">Descripción</label>
       <textarea
         formControlName="description"
         rows="4"
-        class="w-full p-2 border rounded-md"
+        class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         [ngClass]="{'border-red-500': productForm.get('description')?.invalid && productForm.get('description')?.touched}"
       ></textarea>
       <span class="text-red-500 text-sm" *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched">
@@ -56,10 +56,10 @@
     </div>
 
     <div class="space-y-2">
-      <label class="block text-sm font-medium">Categoría</label>
+      <label class="block text-sm font-medium text-gray-700">Categoría</label>
       <select
         formControlName="category"
-        class="w-full p-2 border rounded-md"
+        class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         [ngClass]="{'border-red-500': productForm.get('category')?.invalid && productForm.get('category')?.touched}"
       >
         <option value="">Selecciona una categoría</option>
@@ -73,27 +73,30 @@
     </div>
 
     <div class="space-y-2">
-      <label class="block text-sm font-medium">Imagen del Producto</label>
+      <label class="block text-sm font-medium text-gray-700">URL de la Imagen del Producto</label>
       <input
-        type="file"
-        accept="image/*"
-        (change)="onImageUpload($event)"
-        class="w-full p-2 border rounded-md"
+        type="text"
+        formControlName="imageUrl"
+        class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        [ngClass]="{'border-red-500': productForm.get('imageUrl')?.invalid && productForm.get('imageUrl')?.touched}"
       >
+      <span class="text-red-500 text-sm" *ngIf="productForm.get('imageUrl')?.invalid && productForm.get('imageUrl')?.touched">
+        {{ getErrorMessage('imageUrl') }}
+      </span>
     </div>
 
     <div class="flex items-center space-x-2">
       <input
         type="checkbox"
         formControlName="inStock"
-        class="rounded"
+        class="rounded focus:ring-2 focus:ring-blue-500"
       >
-      <label class="text-sm font-medium">En Stock</label>
+      <label class="text-sm font-medium text-gray-700">En Stock</label>
     </div>
 
     <button
       type="submit"
-      class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 disabled:bg-gray-400"
+      class="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 disabled:bg-gray-400"
       [disabled]="productForm.invalid"
     >
       {{ isEditing ? 'Actualizar Producto' : 'Crear Producto' }}
