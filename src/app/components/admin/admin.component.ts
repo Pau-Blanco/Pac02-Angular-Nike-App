@@ -29,7 +29,7 @@ export class AdminComponent {
   createForm(): FormGroup {
     return this.fb.group({
       name: ["", [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      serialNumber: ["", [Validators.required, Validators.pattern("^[A-Z0-9]{6,10}$")]],
+      serialNumber: ["", [Validators.required, Validators.max(9)]],
       price: ["", [Validators.required, Validators.min(0)]],
       description: ["", [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
       category: ["", Validators.required],
@@ -80,7 +80,7 @@ export class AdminComponent {
       if (control.errors["minlength"]) return `Mínimo ${control.errors["minlength"].requiredLength} caracteres`
       if (control.errors["maxlength"]) return `Máximo ${control.errors["maxlength"].requiredLength} caracteres`
       if (control.errors["min"]) return "El valor no puede ser negativo"
-      if (control.errors["pattern"]) return "Formato de número de serie inválido"
+      if (control.errors["max"]) return "Formato de número de serie inválido"
     }
     return ""
   }
