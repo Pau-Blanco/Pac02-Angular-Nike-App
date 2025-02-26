@@ -4,7 +4,7 @@ export interface Product {
     serialNumber: string;
     price: number;
     description: string;
-    catergory: string;
+    category: string;
     stock: number;
     image: string;
 }
