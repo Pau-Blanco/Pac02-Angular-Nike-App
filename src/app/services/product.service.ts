@@ -1,42 +1,38 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, type Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import type { Product } from '../models/product.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private products: Product[] = []
-  private productsSubject = new BehaviorSubject<Product[]>([])
+  private apiUrl = 'http://localhost:3000/api/products';
 
-  constructor() {}
+  constructor(private http: HttpClient) { }
 
+  // Obtener todos los productos
   getProducts(): Observable<Product[]> {
-    return this.productsSubject.asObservable()
+    return this.http.get<Product[]>(this.apiUrl);
   }
 
-  addProduct(product: Product): void {
-    const newProduct = {
-      ...product,
-      id: this.products.length + 1,
-    }
-    this.products.push(newProduct)
-    this.productsSubject.next([...this.products])
+  // Obtener un producto por serial number
+  getProductBySerialNumber(serialNumber: string): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${serialNumber}`);
   }
 
-  updateProduct(product: Product): void {
-    const index = this.products.findIndex((p) => p.serialNumber === product.serialNumber)
-    if (index !== -1) {
-      this.products[index] = { ...product }
-      this.productsSubject.next([...this.products])
-    }
+  // Agregar un nuevo producto
+  addProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(this.apiUrl, product);
   }
 
-  getProductBySerialNumber(serialNumber: string): Product | undefined {
-    return this.products.find((p) => p.serialNumber === serialNumber)
+  // Actualizar un producto existente
+  updateProduct(product: Product): Observable<Product> {
+    return this.http.put<Product>(`API_URL/products/${product.serialNumber}`, product);
   }
 
-  isSerialNumberTaken(serialNumber: string, excludeId?: number): boolean {
-    return this.products.some((p) => p.serialNumber === serialNumber && p.id !== excludeId)
+  // Eliminar un producto
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
