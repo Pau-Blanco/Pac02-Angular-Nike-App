@@ -1,5 +1,12 @@
-<app-header></app-header>
-<app-navbar></app-navbar>
-<app-hero></app-hero>
-<router-outlet />
-<app-footer></app-footer>
+<ng-container *ngIf="!isAuthPage()">
+    <app-header></app-header>
+    <app-navbar></app-navbar>
+    <app-hero></app-hero>
+  </ng-container>
+  
+  <router-outlet></router-outlet>
+  
+  <ng-container *ngIf="!isAuthPage()">
+    <app-footer></app-footer>
+  </ng-container>
+  
