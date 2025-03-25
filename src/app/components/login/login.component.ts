@@ -22,15 +22,25 @@ export class LoginComponent {
     password: ['', [Validators.required, Validators.minLength(8)]]
   });
 
+  errorMessage: string = ''; // Para mostrar errores en el template
+
   onSubmit(): void {
     if (this.loginForm.invalid) return;
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
-        console.log('Login exitoso: ', response);
-        this.router.navigate(['/home']); // Redirigir a Home
+        if (response.token) {
+          localStorage.setItem('authToken', response.token); // Guarda el token
+          console.log('Login exitoso: ', response);
+          this.router.navigate(['/home']); // Redirigir a Home
+        } else {
+          this.errorMessage = 'No se recibió un token válido.';
+        }
       },
-      error: (error) => console.error('Error en login: ', error)
+      error: (error) => {
+        console.error('Error en login: ', error);
+        this.errorMessage = error.error?.message || 'Error al iniciar sesión. Verifica tus credenciales.';
+      }
     });
   }
 }

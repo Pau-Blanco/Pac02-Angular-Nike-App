@@ -12,7 +12,11 @@
             <li>|</li>
             <li><a href="#careers" class="hover:text-gray-400">Únete a nosotros</a></li>
             <li>|</li>
-            <li><a href="#more" class="hover:text-gray-400">Iniciar Sesión</a></li>
+
+            <!-- Mostrar el botón de cerrar sesión solo si el usuario está autenticado -->
+            <li *ngIf="isAuthenticated" (click)="onLogout()">
+                <a href="javascript:void(0);" class="hover:text-gray-400">Cerrar Sesión</a>
+            </li>
         </ul>
     </nav>
 </header>
