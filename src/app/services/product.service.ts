@@ -18,8 +18,8 @@ export class ProductService {
   }
 
   // Obtener un producto por serial number
-  getProductBySerialNumber(serialNumber: string): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}?serialNumber=${serialNumber}`);
+  getProductBySerialNumber(serial_number: string): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}?serial_number=${serial_number}`);
   }
 
   // Agregar un nuevo producto
@@ -55,7 +55,7 @@ export class ProductService {
   }
 
   // Eliminar un producto
-  deleteProduct(id: number): Observable<void> {
+  deleteProduct(serial_number: string): Observable<void> {
     const token = localStorage.getItem('authToken');
     if (!token) {
       console.error('No hay token, acceso denegado.');
@@ -66,6 +66,8 @@ export class ProductService {
       Authorization: `Bearer ${token}`,
     });
 
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
+    // Cambia la URL para que se use el serial_number en la ruta
+    return this.http.delete<void>(`${this.apiUrl}/${serial_number}`, { headers });
   }
+
 }

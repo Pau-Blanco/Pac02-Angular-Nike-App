@@ -36,14 +36,14 @@ export class AdminComponent implements OnInit {
   onSerialNumberChange(): void {
     const serial_number = this.productForm.get('serial_number')?.value;
     if (!serial_number) return;
-  
+
     this.productService.getProductBySerialNumber(serial_number).subscribe(
       (products) => {
         // Verificar que hemos recibido un array y no un objeto vacío
         if (Array.isArray(products) && products.length > 0) {
           // Filtrar el producto por número de serie
           const product = products.find(p => p.serial_number === serial_number);
-  
+
           if (product) {
             console.log('Producto encontrado:', product); // Verifica el producto encontrado
             this.productId = product.id;
@@ -105,12 +105,14 @@ export class AdminComponent implements OnInit {
 
   // Función para eliminar el producto
   onDelete(): void {
-    if (!this.productId) {
+    const serial_number = this.productForm.get('serial_number')?.value;
+
+    if (!serial_number) {
       alert('No se ha seleccionado un producto');
       return;
     }
 
-    this.productService.deleteProduct(this.productId).subscribe(
+    this.productService.deleteProduct(serial_number).subscribe(
       () => {
         alert('Producto eliminado correctamente');
         this.productForm.reset();
@@ -121,6 +123,7 @@ export class AdminComponent implements OnInit {
       }
     );
   }
+
 
   // Obtener mensaje de error para validación de formulario
   getErrorMessage(controlName: string): string {
