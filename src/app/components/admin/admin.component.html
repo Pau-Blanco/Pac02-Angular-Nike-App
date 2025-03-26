@@ -91,5 +91,10 @@
       [disabled]="productForm.invalid">
       {{ productId ? 'Actualizar Producto' : 'Crear Producto' }}
     </button>
+
+    <button type="button" (click)="onDelete()" *ngIf="productId" 
+      class="w-full bg-red-500 text-white p-3 rounded-md hover:bg-red-600 mt-4">
+      Eliminar Producto
+    </button>
   </form>
 </div>

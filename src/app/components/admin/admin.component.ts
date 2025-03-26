@@ -32,16 +32,37 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  // Función que se llama cuando el número de serie cambia
   onSerialNumberChange(): void {
     const serial_number = this.productForm.get('serial_number')?.value;
     if (!serial_number) return;
-
+  
     this.productService.getProductBySerialNumber(serial_number).subscribe(
-      (product) => {
-        if (product) {
-          this.productId = product.id;
-          this.productForm.patchValue(product);
+      (products) => {
+        // Verificar que hemos recibido un array y no un objeto vacío
+        if (Array.isArray(products) && products.length > 0) {
+          // Filtrar el producto por número de serie
+          const product = products.find(p => p.serial_number === serial_number);
+  
+          if (product) {
+            console.log('Producto encontrado:', product); // Verifica el producto encontrado
+            this.productId = product.id;
+            this.productForm.patchValue({
+              name: product.name,
+              serial_number: product.serial_number,
+              price: product.price,
+              description: product.description,
+              category: product.category,
+              in_stock: product.in_stock,
+              image_url: product.image_url,
+            });
+          } else {
+            // Si no encontramos el producto con ese número de serie
+            this.productId = null;
+            this.productForm.reset({ serial_number });
+          }
         } else {
+          // Si no se encuentra ningún producto en el array
           this.productId = null;
           this.productForm.reset({ serial_number });
         }
@@ -52,6 +73,7 @@ export class AdminComponent implements OnInit {
     );
   }
 
+  // Función para manejar el envío del formulario
   onSubmit(): void {
     if (this.productForm.invalid) return;
 
@@ -81,6 +103,26 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  // Función para eliminar el producto
+  onDelete(): void {
+    if (!this.productId) {
+      alert('No se ha seleccionado un producto');
+      return;
+    }
+
+    this.productService.deleteProduct(this.productId).subscribe(
+      () => {
+        alert('Producto eliminado correctamente');
+        this.productForm.reset();
+        this.productId = null;
+      },
+      (error) => {
+        console.error('Error al eliminar producto:', error);
+      }
+    );
+  }
+
+  // Obtener mensaje de error para validación de formulario
   getErrorMessage(controlName: string): string {
     const control = this.productForm.get(controlName);
     if (control?.errors) {
