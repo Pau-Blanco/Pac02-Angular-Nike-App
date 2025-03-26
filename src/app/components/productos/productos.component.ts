@@ -35,7 +35,7 @@ export class ProductosComponent {
       (product) =>
         product.name.toLowerCase().includes(searchTerm) ||
         product.description.toLowerCase().includes(searchTerm) ||
-        product.serialNumber.toLowerCase().includes(searchTerm),
+        product.serial_number.toLowerCase().includes(searchTerm),
     )
   }
 }

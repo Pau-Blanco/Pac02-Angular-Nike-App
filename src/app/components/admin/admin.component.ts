@@ -6,90 +6,79 @@ import type { Product } from '../../models/product.interface';
 
 @Component({
   selector: 'app-admin',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
 export class AdminComponent implements OnInit {
   productForm: FormGroup;
-  isEditing = false;
-  categories = ["Zapatos", "Ropa", "Accesorios", "Other"];
-  productId: number | null = null; // Para almacenar el ID del producto al editar
+  productId: number | null = null;
+  categories: string[] = ['Zapatos', 'Ropa', 'Accesorios', 'Other'];
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductService
   ) {
-    this.productForm = this.createForm();
+    this.productForm = this.fb.group({
+      name: ['', Validators.required],
+      serial_number: ['', Validators.required],
+      price: ['', [Validators.required, Validators.min(0)]],
+      description: ['', Validators.required],
+      category: ['', Validators.required],
+      in_stock: [10, [Validators.required, Validators.min(0)]],
+      image_url: ['', Validators.required]
+    });
   }
 
   ngOnInit(): void { }
 
-  createForm(): FormGroup {
-    return this.fb.group({
-      name: ["", [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      serialNumber: ["", [Validators.required, Validators.maxLength(9)]], // Corrección en la validación
-      price: ["", [Validators.required, Validators.min(0)]],
-      description: ["", [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
-      category: ["", Validators.required],
-      inStock: [true],
-      imageUrl: ["", Validators.required],
-    });
-  }
-
   onSerialNumberChange(): void {
-    const serialNumber = this.productForm.get("serialNumber")?.value;
-    if (serialNumber) {
-      this.productService.getProductBySerialNumber(serialNumber).subscribe(
-        (product) => {
-          if (product) {
-            this.isEditing = true;
-            this.productId = product.id; // Guardamos el ID del producto para actualizarlo después
-            this.productForm.patchValue(product);
-          } else {
-            this.isEditing = false;
-            this.productId = null;
-          }
-        },
-        (error) => console.error("Error al buscar producto:", error)
-      );
-    }
+    const serial_number = this.productForm.get('serial_number')?.value;
+    if (!serial_number) return;
+
+    this.productService.getProductBySerialNumber(serial_number).subscribe(
+      (product) => {
+        if (product) {
+          this.productId = product.id;
+          this.productForm.patchValue(product);
+        } else {
+          this.productId = null;
+          this.productForm.reset({ serial_number });
+        }
+      },
+      (error) => {
+        console.error('Error al buscar el producto:', error);
+      }
+    );
   }
 
   onSubmit(): void {
-    if (this.productForm.valid) {
-      const product: Product = {
-        ...this.productForm.value,
-        id: this.isEditing && this.productId !== null ? this.productId : undefined,
-      };
+    if (this.productForm.invalid) return;
 
-      if (this.isEditing && this.productId !== null) {
-        this.productService.updateProduct(product).subscribe(() => { // Pasamos solo el objeto `product`
-          console.log("Producto actualizado");
-          this.resetForm();
-        });
-      } else {
-        this.productService.addProduct(product).subscribe(() => {
-          console.log("Producto agregado");
-          this.resetForm();
-        });
-      }
-    } else {
-      Object.keys(this.productForm.controls).forEach((key) => {
-        const control = this.productForm.get(key);
-        if (control?.invalid) {
-          control.markAsTouched();
+    const product = { ...this.productForm.value, id: this.productId };
+
+    if (this.productId) {
+      this.productService.updateProduct(product).subscribe(
+        () => {
+          alert('Producto actualizado correctamente');
+          this.productForm.reset();
+          this.productId = null;
+        },
+        (error) => {
+          console.error('Error al actualizar producto:', error);
         }
-      });
+      );
+    } else {
+      this.productService.addProduct(product).subscribe(
+        () => {
+          alert('Producto agregado correctamente');
+          this.productForm.reset();
+        },
+        (error) => {
+          console.error('Error al agregar producto:', error);
+        }
+      );
     }
-  }
-
-
-  resetForm(): void {
-    this.productForm.reset();
-    this.isEditing = false;
-    this.productId = null;
   }
 
   getErrorMessage(controlName: string): string {

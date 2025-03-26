@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import type { Product } from '../models/product.interface';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -18,21 +19,53 @@ export class ProductService {
 
   // Obtener un producto por serial number
   getProductBySerialNumber(serialNumber: string): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/${serialNumber}`);
+    return this.http.get<Product>(`${this.apiUrl}?serialNumber=${serialNumber}`);
   }
 
   // Agregar un nuevo producto
-  addProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product);
+  addProduct(productData: any): Observable<any> {
+    const token = localStorage.getItem('authToken'); // Asegúrate de usar la clave correcta
+    if (!token) {
+      console.error('No hay token, acceso denegado.');
+      return new Observable(); // Evita hacer la petición si no hay token
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post(this.apiUrl, productData, { headers });
   }
 
-  // Actualizar un producto existente
+  // Actualizar producto
   updateProduct(product: Product): Observable<Product> {
-    return this.http.put<Product>(`API_URL/products/${product.serialNumber}`, product);
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      console.error('No hay token, acceso denegado.');
+      return new Observable(); // Evita hacer la petición si no hay token
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.put<Product>(`${this.apiUrl}/${product.serial_number}`, product, { headers });
   }
 
   // Eliminar un producto
   deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      console.error('No hay token, acceso denegado.');
+      return new Observable(); // Evita hacer la petición si no hay token
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
   }
 }

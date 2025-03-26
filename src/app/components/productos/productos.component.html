@@ -11,7 +11,7 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <div *ngFor="let product of filteredProducts"
       class="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-      <img [src]="product.imageUrl" [alt]="product.name" class="w-full h-70 object-cover">
+      <img [src]="product.image_url" [alt]="product.name" class="w-full h-70 object-cover">
       <div class="p-4 bg-white">
         <h3 class="text-[20px] font-bold text-black">{{ product.name }}</h3>
         <p class="text-black font-bold mb-2">€{{ product.price }}</p>
@@ -19,8 +19,9 @@
         <div class="flex justify-between items-center">
           <span class="text-sm text-gray-500">{{ product.category }}</span>
           <span class="px-2 py-1 text-sm rounded-full"
-            [ngClass]="product.inStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
-            {{ product.inStock ? 'En Stock' : 'Sin Stock' }}
+            [ngClass]="product.in_stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+            <!-- Cambiar la lógica del stock para mostrar el número disponible -->
+            {{ product.in_stock > 0 ? 'En Stock (' + product.in_stock + ' disponibles)' : 'Sin Stock' }}
           </span>
         </div>
       </div>

@@ -1,13 +1,15 @@
 <div class="container mx-auto py-12 px-6">
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()"
     class="max-w-2xl mx-auto space-y-6 bg-white p-8 rounded-lg drop-shadow-2xl">
-    <h2 class="text-2xl font-bold mb-5 text-center text-gray-800">{{ isEditing ? 'Editar Producto' : 'Nuevo Producto' }}
+    <h2 class="text-2xl font-bold mb-5 text-center text-gray-800">
+      {{ productId ? 'Editar Producto' : 'Crear Producto' }}
     </h2>
 
+
     <div class="space-y-4">
-      <label class="block text-sl font-medium text-gray-800">Nombre del Producto</label>
+      <label class="block text-sm font-medium text-gray-800">Nombre del Producto</label>
       <input type="text" formControlName="name"
-        class="w-full p-0.5 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        class="w-full p-2 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         [ngClass]="{'border-red-500': productForm.get('name')?.invalid && productForm.get('name')?.touched}">
       <span class="text-red-500 text-sm" *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
         {{ getErrorMessage('name') }}
@@ -15,20 +17,21 @@
     </div>
 
     <div class="space-y-4">
-      <label class="block text-sl font-medium text-gray-800">Número de Serie</label>
-      <input type="text" formControlName="serialNumber" (blur)="onSerialNumberChange()"
-        class="w-full p-1 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        [ngClass]="{'border-red-500': productForm.get('serialNumber')?.invalid && productForm.get('serialNumber')?.touched}">
+      <label class="block text-sm font-medium text-gray-800">Número de Serie</label>
+      <input type="text" formControlName="serial_number" (blur)="onSerialNumberChange()"
+        class="w-full p-2 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        [ngClass]="{'border-red-500': productForm.get('serial_number')?.invalid && productForm.get('serial_number')?.touched}">
       <span class="text-red-500 text-sm"
-        *ngIf="productForm.get('serialNumber')?.invalid && productForm.get('serialNumber')?.touched">
-        {{ getErrorMessage('serialNumber') }}
+        *ngIf="productForm.get('serial_number')?.invalid && productForm.get('serial_number')?.touched">
+        {{ getErrorMessage('serial_number') }}
       </span>
     </div>
 
+
     <div class="space-y-4">
-      <label class="block text-sl font-medium text-gray-800">Precio</label>
+      <label class="block text-sm font-medium text-gray-800">Precio</label>
       <input type="number" formControlName="price"
-        class="w-full p-1 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        class="w-full p-2 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         [ngClass]="{'border-red-500': productForm.get('price')?.invalid && productForm.get('price')?.touched}">
       <span class="text-red-500 text-sm" *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
         {{ getErrorMessage('price') }}
@@ -36,9 +39,9 @@
     </div>
 
     <div class="space-y-4">
-      <label class="block text-sl font-medium text-gray-800">Descripción</label>
+      <label class="block text-sm font-medium text-gray-800">Descripción</label>
       <textarea formControlName="description" rows="4"
-        class="w-full p-1 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        class="w-full p-2 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         [ngClass]="{'border-red-500': productForm.get('description')?.invalid && productForm.get('description')?.touched}"></textarea>
       <span class="text-red-500 text-sm"
         *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched">
@@ -47,9 +50,9 @@
     </div>
 
     <div class="space-y-4">
-      <label class="block text-sl font-medium text-gray-800">Categoría</label>
+      <label class="block text-sm font-medium text-gray-800">Categoría</label>
       <select formControlName="category"
-        class="w-full p-1 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        class="w-full p-2 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         [ngClass]="{'border-red-500': productForm.get('category')?.invalid && productForm.get('category')?.touched}">
         <option value="">Selecciona una categoría</option>
         <option *ngFor="let category of categories" [value]="category">
@@ -63,24 +66,30 @@
     </div>
 
     <div class="space-y-4">
-      <label class="block text-sl font-medium text-gray-800">URL de la Imagen del Producto</label>
-      <input type="text" formControlName="imageUrl"
-        class="w-full p-1 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        [ngClass]="{'border-red-500': productForm.get('imageUrl')?.invalid && productForm.get('imageUrl')?.touched}">
+      <label class="block text-sm font-medium text-gray-800">URL de la Imagen</label>
+      <input type="text" formControlName="image_url"
+        class="w-full p-2 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        [ngClass]="{'border-red-500': productForm.get('image_url')?.invalid && productForm.get('image_url')?.touched}">
       <span class="text-red-500 text-sm"
-        *ngIf="productForm.get('imageUrl')?.invalid && productForm.get('imageUrl')?.touched">
-        {{ getErrorMessage('imageUrl') }}
+        *ngIf="productForm.get('image_url')?.invalid && productForm.get('image_url')?.touched">
+        {{ getErrorMessage('image_url') }}
       </span>
     </div>
 
-    <div class="flex items-center space-x-2">
-      <input type="checkbox" formControlName="inStock" class="rounded focus:ring-2 focus:ring-blue-500">
-      <label class="block text-sl font-medium text-gray-800">En Stock</label>
+    <div class="space-y-4">
+      <label class="block text-sm font-medium text-gray-800">Cantidad en Stock</label>
+      <input type="number" formControlName="in_stock"
+        class="w-full p-2 border border-stone-600 bg-stone-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        [ngClass]="{'border-red-500': productForm.get('in_stock')?.invalid && productForm.get('in_stock')?.touched}">
+      <span class="text-red-500 text-sm"
+        *ngIf="productForm.get('in_stock')?.invalid && productForm.get('in_stock')?.touched">
+        {{ getErrorMessage('in_stock') }}
+      </span>
     </div>
 
     <button type="submit" class="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 disabled:bg-gray-400"
       [disabled]="productForm.invalid">
-      {{ isEditing ? 'Actualizar Producto' : 'Crear Producto' }}
+      {{ productId ? 'Actualizar Producto' : 'Crear Producto' }}
     </button>
   </form>
 </div>

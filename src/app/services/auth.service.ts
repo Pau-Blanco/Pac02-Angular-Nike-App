@@ -17,6 +17,7 @@ export class AuthService {
         if (response.token && response.user) {
           this.setAuthToken(response.token);
           this.setUserRole(response.user.role); // Guardamos el rol
+          console.log('Token guardado:', response.token); // Verifica en la consola
         }
       })
     );
