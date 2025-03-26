@@ -18,7 +18,11 @@ export class UserService {
       return new Observable(); // Evita hacer la petición si no hay token
     }
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+    
     return this.http.get(`${this.apiUrl}/me`, { headers });
   }
 
@@ -30,7 +34,11 @@ export class UserService {
       return new Observable(); // Evita hacer la petición si no hay token
     }
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+    
     return this.http.put(`${this.apiUrl}/update`, updatedUserData, { headers });
   }
 }
