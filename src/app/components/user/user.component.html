@@ -29,41 +29,29 @@
     </div>
   </div>
 
-  <!-- Formulario de edición -->
-  <div *ngIf="isEditing" class="space-y-6">
-    <div>
-      <label class="block text-lg font-semibold text-gray-700 mb-2" for="name">Nombre</label>
-      <input
-        id="name"
-        type="text"
-        [(ngModel)]="userInfo.name"
-        class="w-full border border-gray-300 p-3 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        placeholder="Escribe tu nombre"
-      />
+  <!-- Lista de Pedidos -->
+  <div class="mt-10">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Mis Pedidos</h2>
+    <div *ngIf="userOrders.length > 0; else noOrders">
+      <table class="w-full border-collapse border border-gray-300">
+        <thead>
+          <tr class="bg-gray-200">
+            <th class="border border-gray-300 px-4 py-2">ID</th>
+            <th class="border border-gray-300 px-4 py-2">Fecha</th>
+            <th class="border border-gray-300 px-4 py-2">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of userOrders">
+            <td class="border border-gray-300 px-4 py-2 text-center">{{ order.id }}</td>
+            <td class="border border-gray-300 px-4 py-2 text-center">{{ order.created_at | date:'medium' }}</td>
+            <td class="border border-gray-300 px-4 py-2 text-center font-bold text-green-600">$ {{ order.total_price }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div>
-      <label class="block text-lg font-semibold text-gray-700 mb-2" for="email">Correo Electrónico</label>
-      <input
-        id="email"
-        type="email"
-        [(ngModel)]="userInfo.email"
-        class="w-full border border-gray-300 p-3 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        placeholder="Escribe tu correo electrónico"
-      />
-    </div>
-    <div class="flex justify-between space-x-4">
-      <button
-        (click)="updateUserInfo()"
-        class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-medium shadow-md transition duration-300"
-      >
-        Guardar Cambios
-      </button>
-      <button
-        (click)="isEditing = false"
-        class="w-full bg-gray-400 hover:bg-gray-500 text-white py-3 px-6 rounded-lg font-medium shadow-md transition duration-300"
-      >
-        Cancelar
-      </button>
-    </div>
+    <ng-template #noOrders>
+      <p class="text-center text-gray-500 text-lg">No has realizado ningún pedido aún.</p>
+    </ng-template>
   </div>
 </div>
