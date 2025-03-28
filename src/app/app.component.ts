@@ -12,6 +12,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserComponent } from './components/user/user.component';
+import { ChartComponent } from './components/chart/chart.component';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,8 @@ import { UserComponent } from './components/user/user.component';
     LoginComponent, 
     RegisterComponent, 
     CommonModule,
-    UserComponent
+    UserComponent,
+    ChartComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

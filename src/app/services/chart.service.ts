@@ -12,7 +12,12 @@ export class ChartService {
 
   constructor(private http: HttpClient) { }
 
-  addToCart(productId: number, quantity: number): Observable<any> {
+  addToCart(product_id: number, quantity: number): Observable<any> {
+    if (!product_id || !quantity || quantity <= 0) {
+      console.error('Datos del producto o cantidad inválidos.');
+      return new Observable(); // Evita hacer la petición si los datos no son válidos
+    }
+
     const token = localStorage.getItem('authToken');
     if (!token) {
       console.error('No hay token, acceso denegado.');
@@ -24,8 +29,13 @@ export class ChartService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.post(`${this.apiUrl}/add`, { headers });
+    const body = { product_id, quantity };
+
+    console.log('Enviando datos al carrito:', body); // Asegúrate de que el cuerpo es correcto
+
+    return this.http.post(`${this.apiUrl}/add`, body, { headers });
   }
+
 
   getCart(): Observable<any> {
     const token = localStorage.getItem('authToken');

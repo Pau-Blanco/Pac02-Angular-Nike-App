@@ -23,11 +23,20 @@
             {{ product.in_stock > 0 ? 'En Stock (' + product.in_stock + ' disponibles)' : 'Sin Stock' }}
           </span>
         </div>
-        <button
+
+        <!-- Input de cantidad -->
+        <div *ngIf="product.in_stock > 0" class="flex items-center mb-4">
+          <input [(ngModel)]="product.quantity" type="number" min="1" max="{{ product.in_stock }}"
+            class="w-16 p-2 text-center border border-gray-300 rounded-lg" />
+        </div>
+
+        <!-- Botón de añadir al carrito -->
+        <button (click)="addToCart(product)"
           class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium shadow-md transition duration-300"
-          [disabled]="product.in_stock === 0">
+          [disabled]="product.in_stock === 0 || !product.quantity">
           Añadir al Carrito
         </button>
+
       </div>
     </div>
   </div>

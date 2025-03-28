@@ -1,0 +1,27 @@
+<div class="container mx-auto p-6">
+    <h2 class="text-3xl font-semibold mb-6">Carrito de Compras</h2>
+    
+    <div *ngIf="cartItems.length > 0; else emptyCart" class="bg-white shadow-lg rounded-lg p-6">
+      <div *ngFor="let item of cartItems" class="flex justify-between items-center border-b pb-4 mb-4">
+        <div class="flex items-center gap-4">
+          <img [src]="item.image_url" alt="Imagen del producto" class="w-16 h-16 rounded-md">
+          <div>
+            <p class="font-medium">{{ item.name }}</p>
+            <p class="text-gray-600">Cantidad: {{ item.quantity }}</p>
+            <p class="text-gray-800 font-semibold">${{ item.price * item.quantity }}</p>
+          </div>
+        </div>
+        <button (click)="removeFromCart(item.id)" class="text-red-500 hover:text-red-700">Eliminar</button>
+      </div>
+      
+      <div class="flex justify-between items-center mt-6">
+        <button (click)="clearCart()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700">Vaciar Carrito</button>
+        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700">Realizar Compra</button>
+      </div>
+    </div>
+    
+    <ng-template #emptyCart>
+      <p class="text-gray-500 text-center">Tu carrito está vacío.</p>
+    </ng-template>
+  </div>
+  
